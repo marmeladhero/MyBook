@@ -1,0 +1,12 @@
+﻿@using WebApplication.Models
+@model  IEnumerable<ViewModelBookAuthor>
+<link href="~/Content/Site.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Books";
+}
+
+@foreach(var item in Model)
+{
+    @Html.Partial("_BooksSummary", item)
+}
+

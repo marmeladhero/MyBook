@@ -1,0 +1,68 @@
+﻿@using ClassLibraryData.Data
+@model  IEnumerable<KeyValuePair<Book, List<Author>>>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Books List
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped table-condensed table-bordered">
+            <tr>
+                <th class="text-center">
+                    @Html.DisplayNameFor(x => x.Key.Id)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(x => x.Key.Name)
+                </th>
+                <th class="text-center">
+                    @Html.DisplayNameFor(x=>x.Key.Genre)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(x => x.Key.Price)
+                </th>
+                <th class="text-right">
+                    @Html.DisplayNameFor(x=> x.Key.Quantity)
+                </th>
+                <th class="text-center">
+                    Action
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td class="text-right">
+                   @item.Key.Id
+                </td>
+                <td>
+                    @Html.ActionLink(item.Key.Name, "Edit", new { item.Key.Id })
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Key.Genre)
+                </td>
+                <td class="text-right">
+                    @item.Key.Price.ToString("# USD")
+                </td>
+                <td class="text-right">
+                    @item.Key.Quantity
+                </td>
+                <td class="text-center">
+                    @using (Html.BeginForm("Delete", "Admin"))
+                    {
+                        @Html.Hidden("id", item.Key.Id)
+                        <input type="submit" class="btn btn-default btn-xs" value="Remove" />
+                    }
+                </td>
+            </tr>
+            }
+        </table>
+    </div>
+    <div class="panel-footer">
+        @Html.ActionLink("Add", "Create", null, new { @class = "btn btn-default" })
+    </div>
+</div>

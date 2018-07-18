@@ -1,0 +1,68 @@
+﻿@using WebApplication.Models
+@model  ViewModelBookAuthor
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="panel">
+
+    <div class="panel-heading">
+
+        <h5>Edit Book: @Model.bBook.Name</h5>
+
+    </div>
+    @using (Html.BeginForm("Edit","Admin", FormMethod.Post, new { app = @Model}))
+    {
+        <div class="panel-body">
+         
+            @Html.HiddenFor(b=>b.bBook.Id)
+            
+            <div class="form-group">
+
+                <label>Name:</label>
+                @Html.TextBoxFor(x => x.bBook.Name, new { @class = "form-control" })
+
+                <label>Genre:</label>
+                @Html.TextBoxFor(x => x.bBook.Genre, new { @class = "form-control" })
+
+
+                <label>Authors:</label>
+                <p></p>
+                @for (int i = 0; i < Model.LstAuthors.Count; i++)
+                {
+                    @Html.HiddenFor(x=>x.LstAuthors[i].Id)
+                    <label>Name</label>
+                    @Html.TextBoxFor(x => x.LstAuthors[i].Name);
+                    <label>Surname</label>
+                    @Html.TextBoxFor(x => x.LstAuthors[i].SurName);
+                    <label>Second name</label>
+                    @Html.TextBoxFor(x => x.LstAuthors[i].SecondName);
+
+                    @Html.ActionLink("Remove", "RemoveAuthor", new { idBook = Model.bBook.Id, idAuthor = i })
+
+                    <p></p>
+                }
+
+                @Html.ActionLink("Add author", "CreateNewAuthor", new { Model.bBook.Id })
+                <p></p>
+
+                <label>Description:</label>
+                @Html.TextAreaFor(x => x.bBook.Desription, new { @class = "form-control", rows = 5 })
+
+
+                <label>Price:</label>
+                @Html.TextBoxFor(x => x.bBook.Price, new { @class = "form-control" })
+                <label>Quantity:</label>
+                @Html.TextBoxFor(x => x.bBook.Quantity, new { @class = "form-control" });
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+
+</div>

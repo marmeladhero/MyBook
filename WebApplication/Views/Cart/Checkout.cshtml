@@ -1,0 +1,22 @@
+﻿@model ClassLibraryData.Data.User
+
+@{
+    ViewBag.Title = "Confirm your order";
+}
+
+<h2>Order details</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <div class="form-group-lg">
+        <label>Your email:</label>
+      
+              @Html.TextBoxFor(x=>x.Email, new { @class="form-control"})
+                
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="CONFIRM" />
+    </div>
+}
+
