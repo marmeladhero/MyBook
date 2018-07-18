@@ -149,11 +149,21 @@ namespace ClassLibraryData.Concrete
 
         public void UpdateAuthor(Author author)
         {
+            if (author.SecondName == null)
+            {
+                this.adapter.UpdateCommand = new SqlCommand("UPDATE Author SET Name=@Name, Surname=@Surname WHERE Id=@Id", this.connection);
+
+            }
+            else
+            {
+                this.adapter.UpdateCommand = new SqlCommand("UPDATE AuthorSET Name=@Name, Surname=@Surname, SecondName=@secondname WHERE Id=@Id", this.connection);
+                this.adapter.UpdateCommand.Parameters.Add(new SqlParameter("secondname", author.SecondName));
+            }
+
             this.adapter.UpdateCommand = new SqlCommand("UPDATE Author SET Name=@Name, Surname=@Surname, SecondName=@Secondname WHERE Id=@Id", this.connection);
             this.adapter.UpdateCommand.Connection.Open();
             this.adapter.UpdateCommand.Parameters.Add(new SqlParameter("@Name", author.Name));
             this.adapter.UpdateCommand.Parameters.Add(new SqlParameter("@Surname", author.SurName));
-            this.adapter.UpdateCommand.Parameters.Add(new SqlParameter("@Secondname", author.SecondName));
             this.adapter.UpdateCommand.Parameters.Add(new SqlParameter("@Id", author.Id));
             this.adapter.UpdateCommand.ExecuteNonQuery();
             this.adapter.UpdateCommand.Connection.Close();

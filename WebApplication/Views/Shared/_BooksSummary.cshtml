@@ -25,9 +25,17 @@
                 </h3>
                
                 <h4>
-                    <strong id="quantity" class="pull-right label label-primary">
-                        Quantity @Model.bBook.Quantity
-                    </strong>
+
+                    @if (Model.bBook.Quantity < 1)
+                    {
+                        <strong id="quantity" class="pull-right label label-primary">OUT OF STACK</strong>
+
+                    }
+                    else
+                    {
+                        <strong id="quantity" class="pull-right label label-primary">Quantity @Model.bBook.Quantity</strong>
+                    }
+
                 </h4>
 
                 @using (Html.BeginForm("AddToCart", "Cart"))
@@ -39,7 +47,10 @@
                         @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
                         @if (User.Identity.IsAuthenticated)
                         {
-                              <input type="submit" class="btn btn-success" value="BUY" />
+                            if (Model.bBook.Quantity > 0)
+                            {
+                             <input type="submit" class="btn btn-success" value="BUY" />
+                            }
                         }
                         else
                         {

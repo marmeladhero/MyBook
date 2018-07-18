@@ -73,10 +73,16 @@ namespace WebApplication.Controllers
 
             if (ModelState.IsValid)
             {
+                foreach(var i in cart.Lines)
+                {
+                    i.book.Quantity--;
+                    this.repository.SaveBook(i.book);
+                }
+
                 this.order.ProcessorOrder(cart, user);
                 cart.Clear();
+                
                 return View("Complete");
-
             }
             else
             {
